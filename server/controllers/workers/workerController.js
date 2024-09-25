@@ -1,16 +1,4 @@
-const fs = require('fs/promises')
-const path = require('path')
-
-const workersPath = path.join(process.cwd(), 'mock_data', 'workers.json')
-let workersCache = null
-
-// PRIVATE
-const loadWorkers = async () => {
-  if (workersCache) return workersCache
-  const rawWorkersContent = await fs.readFile(workersPath, 'utf-8')
-  workersCache = JSON.parse(rawWorkersContent)
-  return workersCache
-}
+const { loadWorkers } = require("./utils")
 
 exports.getAllWorkers = async (req, res) => {
   const workers = await loadWorkers()

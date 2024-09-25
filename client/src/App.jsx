@@ -3,7 +3,8 @@ import './App.css'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import Home from './pages/home'
 import Workers from './pages/workers'
-import Bots from './pages/bots'
+import BotList from './pages/bots/bot_list'
+import Bot from './pages/bots/bot'
 
 const queryClient = new QueryClient()
 
@@ -15,7 +16,8 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/workers" element={<Workers />} />
-          <Route path="/bots" element={<Bots />} />
+          <Route path="/bots" element={<BotList />} />
+          <Route path="/bots/:id" element={<Bot />} />
         </Routes>
       </Router>
     </QueryClientProvider>

@@ -1,5 +1,6 @@
 const fs = require('fs/promises')
 const path = require('path')
+const { getWorkersByBotName } = require('../workers/utils')
 
 const botsPath = path.join(process.cwd(), 'mock_data', 'bots.json')
 let botsCache = null
@@ -19,9 +20,11 @@ exports.getAllBots = async (req, res) => {
 
 exports.getBotById = async (req, res) => {
   const bots = await loadBots()
-  const bot = botsCache.find((bot) => bot.id === parseInt(req.params.id, 10))
+  const bot = bots.find((b) => b.id === req.params.id)
   if (bot) {
-    res.status(200).json(bot)
+    const workers = await getWorkersByBotName(bot.name)
+    const botWithWorkers = { ...bot, workers }
+    res.status(200).json(botWithWorkers)
   } else {
     res.status(404).json({ message: 'Bot not found' })
   }
