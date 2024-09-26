@@ -1,4 +1,5 @@
-const { loadWorkers } = require("./utils")
+const { getLogsByWorkerId } = require('../logs/utils')
+const { loadWorkers } = require('./utils')
 
 exports.getAllWorkers = async (req, res) => {
   const workers = await loadWorkers()
@@ -7,9 +8,11 @@ exports.getAllWorkers = async (req, res) => {
 
 exports.getWorkerById = async (req, res) => {
   const workers = await loadWorkers()
-  const worker = workers.find((w) => w.id === parseInt(req.params.id, 10))
+  const worker = workers.find((w) => w.id === req.params.id)
   if (worker) {
-    res.status(200).json(worker)
+    const logs = await getLogsByWorkerId(worker.id)
+    const workerWithLogs = { ...worker, logs }
+    res.status(200).json(workerWithLogs)
   } else {
     res.status(404).json({ message: 'Worker not found' })
   }
