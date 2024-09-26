@@ -1,5 +1,4 @@
 import { QueryClient, QueryClientProvider } from 'react-query'
-import './App.css'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import Home from './pages/home'
 import BotList from './pages/bots/bot_list'
@@ -8,6 +7,7 @@ import WorkerList from './pages/workers/workers_list'
 import Worker from './pages/workers/worker'
 import LogList from './pages/logs/log_list'
 import Log from './pages/logs/log'
+import NavBar from './components/navbar'
 
 const queryClient = new QueryClient()
 
@@ -15,6 +15,7 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <Router>
+        <NavBar />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/bots" element={<BotList />} />

@@ -1,5 +1,6 @@
 const { loadLogs } = require('./utils')
 
+// need to setup 'mock' pagination with this
 exports.getAllLogs = async (req, res) => {
   const logs = await loadLogs()
   res.status(200).json(logs)
