@@ -1,14 +1,39 @@
 import { useQuery } from 'react-query'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import { getWorkerById } from '../../api/workers'
+import LogsTable from '../../components/logs_table'
 
 const Worker = () => {
   const { id } = useParams()
-  const { data } = useQuery(['worker', id], () => getWorkerById(id), { enabled: !!id })
+  const [logsPageParams, setLogsPageParams] = useSearchParams()
+  const navigate = useNavigate()
+  const logsPage = logsPageParams.get('logsPage') ?? 1
 
-  console.log(data)
+  const { data: worker, isLoading, error } = useQuery(['worker', id, logsPage], () => getWorkerById(id, logsPage), { enabled: !!id })
 
-  return <h1>Worker</h1>
+  if (isLoading) return 'Loading'
+
+  if (error) return error
+
+  const handleClickLog = (logId) => {
+    navigate(`/logs/${logId}`)
+  }
+
+  const handleChangeLogsPage = (newPage) => {
+    setLogsPageParams({ logsPage: newPage })
+  }
+
+  return (
+    <div>
+      <h1>Worker</h1>
+      {worker && (
+        <>
+          <div>{worker.name}</div>
+          <LogsTable logs={worker.logs} onClickRow={handleClickLog} onChangePage={handleChangeLogsPage} />
+        </>
+      )}
+    </div>
+  )
 }
 
 export default Worker
