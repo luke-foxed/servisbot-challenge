@@ -1,7 +1,7 @@
 import apiClient from '../utils/apiClient'
 
-export async function getLogs() {
-  const res = await apiClient.get('/logs')
+export async function getLogs(page) {
+  const res = await apiClient.get(`/logs?page=${page}`)
   return res
 }
 

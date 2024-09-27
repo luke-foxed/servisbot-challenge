@@ -5,7 +5,7 @@ export async function getWorkers() {
   return res
 }
 
-export async function getWorkerById(id) {
-  const res = await apiClient.get(`/workers/${id}`)
+export async function getWorkerById(id, logsPage) {
+  const res = await apiClient.get(`/workers/${id}?logsPage=${logsPage}`)
   return res
 }

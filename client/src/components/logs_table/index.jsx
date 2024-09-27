@@ -5,8 +5,11 @@ import TableContainer from '@mui/material/TableContainer'
 import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
 import Paper from '@mui/material/Paper'
+import { TableFooter } from '@mui/material'
+import Paginator from '../common/paginator'
 
-const LogsTable = ({ logs, onClickRow }) => {
+const LogsTable = ({ logs, onClickRow, onChangePage }) => {
+  const { results, currentPage, totalResults } = logs
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -20,7 +23,7 @@ const LogsTable = ({ logs, onClickRow }) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {logs.map((log) => (
+          {results.map((log) => (
             <TableRow
               key={log.id}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
@@ -45,6 +48,11 @@ const LogsTable = ({ logs, onClickRow }) => {
             </TableRow>
           ))}
         </TableBody>
+        <TableFooter>
+          <TableRow>
+            <Paginator page={currentPage - 1} count={totalResults} onPageChange={onChangePage} />
+          </TableRow>
+        </TableFooter>
       </Table>
     </TableContainer>
   )

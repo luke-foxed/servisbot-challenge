@@ -5,8 +5,11 @@ import TableContainer from '@mui/material/TableContainer'
 import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
 import Paper from '@mui/material/Paper'
+import { TableFooter } from '@mui/material'
+import Paginator from '../common/paginator'
 
-const WorkersTable = ({ workers, onClickRow }) => {
+const WorkersTable = ({ workers, onClickRow, onChangePage }) => {
+  const { results, currentPage, totalResults } = workers
 
   return (
     <TableContainer component={Paper}>
@@ -20,7 +23,7 @@ const WorkersTable = ({ workers, onClickRow }) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {workers.map((worker) => (
+          {results.map((worker) => (
             <TableRow
               key={worker.id}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
@@ -35,6 +38,11 @@ const WorkersTable = ({ workers, onClickRow }) => {
             </TableRow>
           ))}
         </TableBody>
+        <TableFooter>
+          <TableRow>
+            <Paginator page={currentPage - 1} count={totalResults} onPageChange={onChangePage} />
+          </TableRow>
+        </TableFooter>
       </Table>
     </TableContainer>
   )

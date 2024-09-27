@@ -5,8 +5,11 @@ import TableContainer from '@mui/material/TableContainer'
 import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
 import Paper from '@mui/material/Paper'
+import { TableFooter } from '@mui/material'
+import Paginator from '../common/paginator'
 
-const BotsTable = ({ bots, onClickRow }) => {
+const BotsTable = ({ bots, onClickRow, onChangePage }) => {
+  const { results, currentPage, totalResults } = bots
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -19,7 +22,7 @@ const BotsTable = ({ bots, onClickRow }) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {bots.map((bot) => (
+          {results.map((bot) => (
             <TableRow
               key={bot.id}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
@@ -34,6 +37,15 @@ const BotsTable = ({ bots, onClickRow }) => {
             </TableRow>
           ))}
         </TableBody>
+        <TableFooter>
+          <TableRow>
+            <Paginator
+              page={currentPage - 1}
+              count={totalResults}
+              onPageChange={onChangePage}
+            />
+          </TableRow>
+        </TableFooter>
       </Table>
     </TableContainer>
   )

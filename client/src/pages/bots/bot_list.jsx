@@ -1,11 +1,13 @@
 import { useQuery } from 'react-query'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import { getBots } from '../../api/bots'
 import BotsTable from '../../components/bots_table'
 
 const BotList = () => {
-  const { data, isLoading, error } = useQuery(['bots'], () => getBots())
+  const [pageParams, setPageParams] = useSearchParams()
   const navigate = useNavigate()
+  const page = pageParams.get('page') ?? 1
+  const { data, isLoading, error } = useQuery(['bots', page], () => getBots(page))
 
   if (isLoading) return 'Loading'
 
@@ -16,10 +18,14 @@ const BotList = () => {
     navigate(`/bots/${botId}`)
   }
 
+  const handleChangePage = (newPage) => {
+    setPageParams({ page: newPage })
+  }
+
   return (
     <div>
       <h1>Bots</h1>
-      {data && <BotsTable bots={data} onClickRow={handleClickBot} />}
+      {data && <BotsTable bots={data} onClickRow={handleClickBot}  onChangePage={handleChangePage} />}
     </div>
   )
 }
