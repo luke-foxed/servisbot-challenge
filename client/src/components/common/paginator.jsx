@@ -6,6 +6,7 @@ import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft'
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight'
 import LastPageIcon from '@mui/icons-material/LastPage'
 import { TablePagination } from '@mui/material'
+import { useSearchParams } from 'react-router-dom'
 
 const PaginateActions = ({ count, page, rowsPerPage, onPageChange }) => {
   const theme = useTheme()
@@ -70,7 +71,13 @@ const PaginateActions = ({ count, page, rowsPerPage, onPageChange }) => {
   )
 }
 
-const Paginator = ({ page, count, onPageChange }) => {
+const Paginator = ({ page, count }) => {
+  const [searchParams, setSearchParams] = useSearchParams()
+
+  const handleChangePage = (newPage) => {
+    const currentParams = Object.fromEntries([...searchParams])
+    setSearchParams({ ...currentParams, page: newPage })
+  }
 
   return (
     <TablePagination
@@ -83,7 +90,7 @@ const Paginator = ({ page, count, onPageChange }) => {
       rowsPerPage={50}
       rowsPerPageOptions={[]}
       page={page}
-      onPageChange={onPageChange}
+      onPageChange={handleChangePage}
       ActionsComponent={PaginateActions}
     />
   )

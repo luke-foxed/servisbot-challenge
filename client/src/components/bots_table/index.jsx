@@ -8,7 +8,7 @@ import Paper from '@mui/material/Paper'
 import { TableFooter } from '@mui/material'
 import Paginator from '../common/paginator'
 
-const BotsTable = ({ bots, onClickRow, onChangePage }) => {
+const BotsTable = ({ bots, onClickRow }) => {
   const { results, currentPage, totalResults } = bots
   return (
     <TableContainer component={Paper}>
@@ -39,11 +39,7 @@ const BotsTable = ({ bots, onClickRow, onChangePage }) => {
         </TableBody>
         <TableFooter>
           <TableRow>
-            <Paginator
-              page={currentPage - 1}
-              count={totalResults}
-              onPageChange={onChangePage}
-            />
+            <Paginator page={currentPage - 1} count={totalResults} />
           </TableRow>
         </TableFooter>
       </Table>

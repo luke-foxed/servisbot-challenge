@@ -2,14 +2,18 @@ import { TextField, Box, debounce } from '@mui/material'
 import { useSearchParams } from 'react-router-dom'
 
 const Search = ({ searchKey }) => {
-  const [, setSearchParams] = useSearchParams()
+  const [searchParams, setSearchParams] = useSearchParams()
 
   const handleInputChange = (event) => {
     const newSearchTerm = event.target.value
+    const currentParams = Object.fromEntries([...searchParams])
     if (newSearchTerm) {
-      setSearchParams({ [searchKey]: newSearchTerm })
+      // if the user searches while on a further page, they may miss the results
+      setSearchParams({ ...currentParams, page: 1, [searchKey]: newSearchTerm })
     } else {
-      setSearchParams({})
+      // if the search string is empty, remove that key from the searchParams
+      delete currentParams[searchKey]
+      setSearchParams(currentParams)
     }
   }
 

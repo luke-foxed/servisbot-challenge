@@ -1,12 +1,11 @@
 import { useQuery } from 'react-query'
-import { useLocation, useNavigate, useSearchParams } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { getBots } from '../../api/bots'
 import BotsTable from '../../components/bots_table'
 import { Stack } from '@mui/material'
 import Search from '../../components/common/search'
 
 const BotList = () => {
-  const [searchParams, setSearchParams] = useSearchParams()
   const navigate = useNavigate()
   const { search } = useLocation()
   const { data, isLoading, error } = useQuery(['bots', search], () => getBots(search))
@@ -14,12 +13,6 @@ const BotList = () => {
   // the table could handle this internally but routing should only happen at the page level and not component level
   const handleClickBot = (botId) => {
     navigate(`/bots/${botId}`)
-  }
-
-  const handleChangePage = (newPage) => {
-    // preserve existing URL params
-    const currentParams = Object.fromEntries([...searchParams])
-    setSearchParams({ ...currentParams, page: newPage })
   }
 
   return (
@@ -30,11 +23,7 @@ const BotList = () => {
       </Stack>
       {isLoading && 'Loading...'}
       {!isLoading && !error && data && (
-        <BotsTable
-          bots={data}
-          onClickRow={handleClickBot}
-          onChangePage={handleChangePage}
-        />
+        <BotsTable bots={data} onClickRow={handleClickBot} />
       )}
     </div>
   )

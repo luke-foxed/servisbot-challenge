@@ -8,7 +8,7 @@ import Paper from '@mui/material/Paper'
 import { TableFooter } from '@mui/material'
 import Paginator from '../common/paginator'
 
-const LogsTable = ({ logs, onClickRow, onChangePage }) => {
+const LogsTable = ({ logs, onClickRow }) => {
   const { results, currentPage, totalResults } = logs
   return (
     <TableContainer component={Paper}>
@@ -50,7 +50,7 @@ const LogsTable = ({ logs, onClickRow, onChangePage }) => {
         </TableBody>
         <TableFooter>
           <TableRow>
-            <Paginator page={currentPage - 1} count={totalResults} onPageChange={onChangePage} />
+            <Paginator page={currentPage - 1} count={totalResults} />
           </TableRow>
         </TableFooter>
       </Table>

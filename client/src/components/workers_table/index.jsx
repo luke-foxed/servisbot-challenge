@@ -8,7 +8,7 @@ import Paper from '@mui/material/Paper'
 import { TableFooter } from '@mui/material'
 import Paginator from '../common/paginator'
 
-const WorkersTable = ({ workers, onClickRow, onChangePage }) => {
+const WorkersTable = ({ workers, onClickRow }) => {
   const { results, currentPage, totalResults } = workers
 
   return (
@@ -40,7 +40,7 @@ const WorkersTable = ({ workers, onClickRow, onChangePage }) => {
         </TableBody>
         <TableFooter>
           <TableRow>
-            <Paginator page={currentPage - 1} count={totalResults} onPageChange={onChangePage} />
+            <Paginator page={currentPage - 1} count={totalResults} />
           </TableRow>
         </TableFooter>
       </Table>
