@@ -1,7 +1,7 @@
 import apiClient from '../utils/apiClient'
 
-export async function getBots(page) {
-  const res = await apiClient.get(`/bots?page=${page}`)
+export async function getBots(queryString) {
+  const res = await apiClient.get(`/bots${queryString}`)
   return res
 }
 

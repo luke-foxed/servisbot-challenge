@@ -1,7 +1,7 @@
 import apiClient from '../utils/apiClient'
 
-export async function getWorkers() {
-  const res = await apiClient.get('/workers')
+export async function getWorkers(queryString) {
+  const res = await apiClient.get(`/workers${queryString}`)
   return res
 }
 
