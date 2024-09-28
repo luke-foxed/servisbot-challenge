@@ -13,7 +13,7 @@ const NavBar = () => {
 
   return (
     <div style={{ paddingBottom: '50px' }}>
-      <AppBar position="static" sx={{ background: '#fff', height: '70px' }}>
+      <AppBar position="static" sx={{ background: '#fff', height: '70px', boxShadow: 'none', borderBottom: '2px solid rgba(0,0,0,0.1)' }}>
         <Container maxWidth="xl" style={{ margin: 'auto' }}>
           <Toolbar disableGutters>
             <Stack

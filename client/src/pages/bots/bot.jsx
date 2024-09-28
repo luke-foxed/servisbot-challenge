@@ -35,17 +35,20 @@ const Bot = () => {
       </Stack>
 
       {bot && (
-        <StyledStack direction="row" justifyContent="space-evenly">
-          <Typography variant="p">
-            <strong>Description:</strong> {bot.description}
-          </Typography>
-          <Typography variant="p">
-            <strong>Status:</strong> {bot.status}
-          </Typography>
-          <Typography variant="p">
-            <strong>Created:</strong> {new Date(bot.created).toString()}
-          </Typography>
-        </StyledStack>
+        <Stack display="grid" gap="20px" gridTemplateColumns="repeat(3, 1fr)">
+          <StyledStack gap="20px">
+            <Typography variant="h5">Description</Typography>
+            <div>{bot.description}</div>
+          </StyledStack>
+          <StyledStack gap="20px">
+            <Typography variant="h5">Status</Typography>
+            <div>{bot.status}</div>
+          </StyledStack>
+          <StyledStack gap="20px">
+            <Typography variant="h5">Created</Typography>
+            <div>{new Date(bot.created).toString()}</div>
+          </StyledStack>
+        </Stack>
       )}
 
       <Stack direction="row" justifyContent="space-between" alignItems="center">

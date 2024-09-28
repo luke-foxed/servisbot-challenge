@@ -35,20 +35,20 @@ const Worker = () => {
       </Stack>
 
       {worker && (
-        <StyledStack direction="row" justifyContent="space-evenly">
-          <Typography variant="p">
-            <strong>Name:</strong> {worker.name}
-          </Typography>
-          <Typography variant="p">
-            <strong>Description:</strong> {worker.description}
-          </Typography>
-          <Typography variant="p">
-            <strong>Bot:</strong> {worker.bot}
-          </Typography>
-          <Typography variant="p">
-            <strong>Created:</strong> {new Date(worker.created).toString()}
-          </Typography>
-        </StyledStack>
+        <Stack display="grid" gap="20px" gridTemplateColumns="repeat(3, 1fr)">
+          <StyledStack gap="20px">
+            <Typography variant="h5">Description</Typography>
+            <div>{worker.description}</div>
+          </StyledStack>
+          <StyledStack gap="20px">
+            <Typography variant="h5">Bot</Typography>
+            <div>{worker.bot}</div>
+          </StyledStack>
+          <StyledStack gap="20px">
+            <Typography variant="h5">Created</Typography>
+            <div>{new Date(worker.created).toString()}</div>
+          </StyledStack>
+        </Stack>
       )}
 
       <Stack direction="row" justifyContent="space-between" alignItems="center">

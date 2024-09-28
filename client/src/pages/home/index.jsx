@@ -4,6 +4,7 @@ import { getStats } from '../../api/stats'
 import { useNavigate } from 'react-router-dom'
 import { BotIcon, LogIcon, WorkerIcon } from '../../components/common/icons'
 import { StyledStack } from '../../components/common/styled_components'
+import logo from '/logo.avif'
 
 const StatIcon = ({ stat }) => {
   switch (stat) {
@@ -19,10 +20,10 @@ const StatIcon = ({ stat }) => {
 const StatBox = ({ stat, value, onClick }) => {
   return (
     <StyledStack
-      sx={{ height: '150px', width: '250px', margin: 'auto' }}
       onClick={() => onClick(stat)}
       gap="10px"
       alignItems="center"
+      sx={{ transition: 'all 0.2s ease-in-out', '&:hover': { boxShadow: '0px 0px 0px 2px #0492cf', cursor: 'pointer'  } }}
     >
       <Stack
         direction="row"
@@ -48,19 +49,15 @@ const Home = () => {
     navigate(`/${stat}`)
   }
 
-  const renderContent = () => {
-    if (isLoading) return 'Loading...'
-    if (error) return 'Loading'
-  }
-
   return (
-    <Stack height="75vh" alignItems="center" justifyContent="center" gap="40px">
+    <Stack height="50h" alignItems="center" justifyContent="center" gap="40px">
       <Typography variant="h3">ServisBot Dashboard</Typography>
+      <img src={logo} height={100} />
       <Typography variant="subtitle1">
         Welcome Back! Here are some stats on your current setup.
       </Typography>
       {data && (
-        <Stack direction="row" gap="40px">
+        <Stack display="grid" gap="20px" gridTemplateColumns={`repeat(${Object.keys(data)?.length ?? 0}, 1fr)`}>
           {Object.keys(data).map((stat) => (
             <StatBox key={stat} stat={stat} value={data[stat]} onClick={handleStatClick} />
           ))}
