@@ -3,54 +3,61 @@ import Toolbar from '@mui/material/Toolbar'
 import Container from '@mui/material/Container'
 import Button from '@mui/material/Button'
 import { Link, useLocation } from 'react-router-dom'
-import logo from '/logo.png'
-import { Stack } from '@mui/material'
+import logo from '/logo_full.png'
+import { Box, Stack } from '@mui/material'
 
-const pages = ['Bots', 'Workers', 'Logs']
+const PAGES = ['Bots', 'Workers', 'Logs']
 
 const NavBar = () => {
-  const location = useLocation() // Get the current location
+  const location = useLocation()
 
   return (
-    <AppBar position="static" sx={{ background: '#fff', height: '70px' }}>
-      <Container maxWidth="xl" style={{ margin: 'auto' }}>
-        <Toolbar disableGutters>
-          <Stack
-            direction="row"
-            justifyContent="space-between"
-            alignItems="center"
-            sx={{ width: '100%' }}
-          >
-            <Link to="/" style={{ textDecoration: 'none', cursor: 'pointer' }}>
-              <img src={logo} height={30} alt="Logo" />
-            </Link>
+    <div style={{ paddingBottom: '50px' }}>
+      <AppBar position="static" sx={{ background: '#fff', height: '70px' }}>
+        <Container maxWidth="xl" style={{ margin: 'auto' }}>
+          <Toolbar disableGutters>
+            <Stack
+              direction="row"
+              justifyContent="space-between"
+              alignItems="center"
+              sx={{ width: '100%' }}
+            >
+              <Link
+                to="/"
+                style={{ textDecoration: 'none', cursor: 'pointer' }}
+              >
+                <img src={logo} height={35} alt="Logo" />
+              </Link>
 
-            <Stack direction="row" gap="5px">
-              {pages.map((page) => {
-                const isActive = location.pathname === `/${page.toLowerCase()}` // Check if the button is active
+              <Stack direction="row" gap="5px">
+                {PAGES.map((page) => {
+                  const isActive =
+                    location.pathname.includes(page.toLowerCase())
 
-                return (
-                  <Link
-                    to={`/${page.toLowerCase()}`}
-                    key={page}
-                    style={{ textDecoration: 'none', color: '#000' }}
-                  >
-                    <Button
-                      size="large"
-                      variant="text"
-                      color={isActive ? 'primary' : ''} // Use 'primary' color if active, otherwise inherit
-                      sx={{ width: '100px' }}
+                  return (
+                    <Link
+                      to={`/${page.toLowerCase()}`}
+                      key={page}
+                      style={{ textDecoration: 'none', color: 'darkgray' }}
                     >
-                      {page}
-                    </Button>
-                  </Link>
-                )
-              })}
+                      <Button
+                        disableRipple
+                        size="large"
+                        variant="text"
+                        color={isActive ? 'primary' : ''}
+                        sx={{ width: '100px', fontSize: '20px' }}
+                      >
+                        <Box sx={{ borderBottom: isActive ? '2px solid': 'none' }}>{page}</Box>
+                      </Button>
+                    </Link>
+                  )
+                })}
+              </Stack>
             </Stack>
-          </Stack>
-        </Toolbar>
-      </Container>
-    </AppBar>
+          </Toolbar>
+        </Container>
+      </AppBar>
+    </div>
   )
 }
 export default NavBar

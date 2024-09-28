@@ -1,48 +1,25 @@
 import { Stack, Typography } from '@mui/material'
 import { useQuery } from 'react-query'
 import { getStats } from '../../api/stats'
-import SmartToyIcon from '@mui/icons-material/SmartToy'
-import ConstructionIcon from '@mui/icons-material/Construction'
-import TextSnippetIcon from '@mui/icons-material/TextSnippet'
 import { useNavigate } from 'react-router-dom'
-
-const iconStyles = {
-  borderRadius: '10px',
-  height: '40px',
-  width: '40px',
-  padding: '5px',
-  color: '#fff',
-}
+import { BotIcon, LogIcon, WorkerIcon } from '../../components/common/icons'
+import { StyledStack } from '../../components/common/styled_components'
 
 const StatIcon = ({ stat }) => {
-  const getIconStyles = (bgColor) => ({
-    ...iconStyles,
-    bgcolor: bgColor, // apply specific background color based on stat
-  })
-
   switch (stat) {
     case 'bots':
-      return <SmartToyIcon sx={getIconStyles('bots.main')} />
+      return <BotIcon />
     case 'workers':
-      return <ConstructionIcon sx={getIconStyles('workers.main')} />
+      return <WorkerIcon />
     default:
-      return <TextSnippetIcon sx={getIconStyles('logs.main')} />
+      return <LogIcon />
   }
 }
 
 const StatBox = ({ stat, value, onClick }) => {
   return (
-    <Stack
-      sx={{
-        height: '125px',
-        width: '250px',
-        background: '#fff',
-        borderRadius: '20px',
-        margin: 'auto',
-        padding: '10px',
-        border: '4px solid',
-        borderColor: `${stat}.main`,
-      }}
+    <StyledStack
+      sx={{ height: '150px', width: '250px', margin: 'auto' }}
       onClick={() => onClick(stat)}
       gap="10px"
       alignItems="center"
@@ -52,13 +29,14 @@ const StatBox = ({ stat, value, onClick }) => {
         alignItems="center"
         justifyContent="flex-start"
         width="100%"
+        height="100%"
         gap="10px"
       >
         <StatIcon stat={stat} />
         <Typography variant="h4">{stat.toUpperCase()}</Typography>
       </Stack>
       <Typography variant="h3">{value}</Typography>
-    </Stack>
+    </StyledStack>
   )
 }
 

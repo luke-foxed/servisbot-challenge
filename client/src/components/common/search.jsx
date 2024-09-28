@@ -1,5 +1,7 @@
-import { TextField, Box, debounce } from '@mui/material'
+import { debounce } from '@mui/material'
 import { useSearchParams } from 'react-router-dom'
+import SearchIcon from '@mui/icons-material/Search'
+import { StyledTextField } from './styled_components'
 
 const Search = ({ searchKey }) => {
   const [searchParams, setSearchParams] = useSearchParams()
@@ -26,14 +28,17 @@ const Search = ({ searchKey }) => {
   const debounceSearch = debounce(handleInputChange, 500)
 
   return (
-    <Box display="flex" alignItems="center" gap={1}>
-      <TextField
-        label="Search"
-        variant="outlined"
-        onChange={debounceSearch}
-        onKeyDown={handleKeyPress}
-      />
-    </Box>
+    <StyledTextField
+      sx={{ margin: 'auto 0' }}
+      size="small"
+      placeholder="Search items..."
+      variant="outlined"
+      onChange={debounceSearch}
+      onKeyDown={handleKeyPress}
+      InputProps={{
+        startAdornment: <SearchIcon />,
+      }}
+    />
   )
 }
 

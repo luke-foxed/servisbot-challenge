@@ -19,15 +19,17 @@ function App() {
       <QueryClientProvider client={queryClient}>
         <Router>
           <NavBar />
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/bots" element={<BotList />} />
-            <Route path="/bots/:id" element={<Bot />} />
-            <Route path="/workers" element={<WorkerList />} />
-            <Route path="/workers/:id" element={<Worker />} />
-            <Route path="/logs" element={<LogList />} />
-            <Route path="/logs/:id" element={<Log />} />
-          </Routes>
+          <div style={{ width: '86%', margin: 'auto' }}>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/bots" element={<BotList />} />
+              <Route path="/bots/:id" element={<Bot />} />
+              <Route path="/workers" element={<WorkerList />} />
+              <Route path="/workers/:id" element={<Worker />} />
+              <Route path="/logs" element={<LogList />} />
+              <Route path="/logs/:id" element={<Log />} />
+            </Routes>
+          </div>
         </Router>
       </QueryClientProvider>
     </ThemeProvider>

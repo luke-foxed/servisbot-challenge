@@ -1,13 +1,5 @@
-import Table from '@mui/material/Table'
-import TableBody from '@mui/material/TableBody'
-import TableCell from '@mui/material/TableCell'
-import TableContainer from '@mui/material/TableContainer'
-import TableHead from '@mui/material/TableHead'
-import TableRow from '@mui/material/TableRow'
-import Paper from '@mui/material/Paper'
-import { IconButton, Stack, TableFooter } from '@mui/material'
+import { IconButton, Stack, TableFooter, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material'
 import Paginator from './paginator'
-import { startCase } from 'lodash'
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import VisibilityIcon from '@mui/icons-material/Visibility';
@@ -31,9 +23,9 @@ const DataTable = ({ data, columns = [], actions = {} }) => {
   }
 
   return (
-    <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 650 }}>
-        <TableHead>
+    <TableContainer sx={{ background: '#fff', borderRadius: '20px', boxShadow: '0px 0px 16px 0px rgba(0,0,0,0.15)', maxHeight: '60vh' }}>
+      <Table stickyHeader sx={{ minWidth: 650 }}>
+        <TableHead >
           <TableRow>
             {columns?.length > 0 &&
               columns.map((col, idx) => (
@@ -41,11 +33,11 @@ const DataTable = ({ data, columns = [], actions = {} }) => {
                   align={idx === 0 ? 'inherit' : 'right'}
                   key={`${col}_${idx}`}
                 >
-                  {startCase(col)}
+                  {col.toUpperCase()}
                 </TableCell>
               ))}
             {Object.keys(actions).length > 0 && (
-              <TableCell align="right">Actions</TableCell>
+              <TableCell align="right">ACTIONS</TableCell>
             )}
           </TableRow>
         </TableHead>
@@ -80,6 +72,7 @@ const DataTable = ({ data, columns = [], actions = {} }) => {
                       <IconButton
                         key={tableActions[actionKey].key}
                         onClick={() => tableActions[actionKey].cb(item.id)}
+                        sx={{ '&:hover': { color: 'primary.main' } }}
                       >
                         {tableActions[actionKey].icon()}
                       </IconButton>

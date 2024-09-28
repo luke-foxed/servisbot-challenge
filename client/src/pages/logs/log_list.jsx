@@ -1,9 +1,10 @@
 import { useQuery } from 'react-query'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { getLogs } from '../../api/logs'
-import { Stack } from '@mui/material'
+import { Stack, Typography } from '@mui/material'
 import Search from '../../components/common/search'
 import DataTable from '../../components/common/data_table'
+import { LogIcon } from '../../components/common/icons'
 
 const LOG_COLUMNS = ['id', 'message', 'bot', 'worker', 'created']
 
@@ -19,16 +20,20 @@ const LogList = () => {
   const actions = { onView: handleClickLog, onDelete: () => alert('delete'), onEdit: () => alert('edit') }
 
   return (
-    <div>
+    <Stack gap="20px">
       <Stack direction="row" justifyContent="space-between">
-        <h1>Logs</h1>
+        <Stack direction="row" alignItems="center" gap="10px">
+          <LogIcon />
+          <Typography variant="h3">LOGS</Typography>
+        </Stack>
+
         <Search searchKey="id" />
       </Stack>
       {isLoading && 'Loading...'}
       {!isLoading && !error && data && (
         <DataTable data={data} columns={LOG_COLUMNS} actions={actions} />
       )}
-    </div>
+    </Stack>
   )
 }
 
