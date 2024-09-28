@@ -1,24 +1,33 @@
 import { useQuery } from 'react-query'
 import { getWorkers } from '../../api/workers'
-import WorkersTable from '../../components/workers_table'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
+import Search from '../../components/common/search'
+import { Stack } from '@mui/material'
+import DataTable from '../../components/common/data_table'
+
+const WORKER_COLUMNS = ['name', 'description', 'bot', 'created']
 
 const WorkerList = () => {
-  const { data, isLoading, error } = useQuery(['workers'], () => getWorkers())
   const navigate = useNavigate()
-
-  if (isLoading) return 'Loading'
-
-  if (error) return error
+  const { search } = useLocation()
+  const { data, isLoading, error } = useQuery(['workers', search], () => getWorkers(search))
 
   const handleClickWorker = (workerId) => {
     navigate(`/workers/${workerId}`)
   }
 
+  const actions = { onView: handleClickWorker, onDelete: () => alert('delete'), onEdit: () => alert('edit') }
+
   return (
     <div>
-      <h1>Workers</h1>
-      {data && <WorkersTable workers={data} onClickRow={handleClickWorker} />}
+      <Stack direction="row" justifyContent="space-between">
+        <h1>Workers</h1>
+        <Search searchKey="name" />
+      </Stack>
+      {isLoading && 'Loading...'}
+      {!isLoading && !error && data && (
+        <DataTable data={data} columns={WORKER_COLUMNS} actions={actions} />
+      )}
     </div>
   )
 }

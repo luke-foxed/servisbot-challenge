@@ -1,10 +1,12 @@
-const { loadLogs } = require('../../utils/logUtils')
+const filterResults = require('../../utils/filter')
+const { loadLogs } = require('../../utils/log')
 const paginateResults = require('../../utils/pagination')
 
 // need to setup 'mock' pagination with this
 exports.getAllLogs = async (req, res) => {
   const logs = await loadLogs()
-  const paginatedLogs = paginateResults(logs, 50, req?.query?.page)
+  const filteredLogs = filterResults(logs, req.query)
+  const paginatedLogs = paginateResults(filteredLogs, 50, req.query?.page)
   res.status(200).json(paginatedLogs)
 }
 

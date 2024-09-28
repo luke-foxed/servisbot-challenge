@@ -1,31 +1,38 @@
 import { useQuery } from 'react-query'
-import { useNavigate, useSearchParams } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { getBots } from '../../api/bots'
-import BotsTable from '../../components/bots_table'
+import { Stack } from '@mui/material'
+import Search from '../../components/common/search'
+import DataTable from '../../components/common/data_table'
+import { BOT_TABLE_COLUMNS } from '../../constants'
 
 const BotList = () => {
-  const [pageParams, setPageParams] = useSearchParams()
   const navigate = useNavigate()
-  const page = pageParams.get('page') ?? 1
-  const { data, isLoading, error } = useQuery(['bots', page], () => getBots(page))
-
-  if (isLoading) return 'Loading'
-
-  if (error) return error
+  const { search } = useLocation()
+  const { data, isLoading, error } = useQuery(['bots', search], () => getBots(search))
 
   // the table could handle this internally but routing should only happen at the page level and not component level
   const handleClickBot = (botId) => {
     navigate(`/bots/${botId}`)
   }
 
-  const handleChangePage = (newPage) => {
-    setPageParams({ page: newPage })
-  }
+  // added a few extra actions here just so the UI looks more 'complete', they aren't hooked up though
+  const actions = { onView: handleClickBot, onDelete: () => alert('delete'), onEdit: () => alert('edit') }
 
   return (
     <div>
-      <h1>Bots</h1>
-      {data && <BotsTable bots={data} onClickRow={handleClickBot}  onChangePage={handleChangePage} />}
+      <Stack direction="row" justifyContent="space-between">
+        <h1>Bots</h1>
+        <Search searchKey="name" />
+      </Stack>
+      {isLoading && 'Loading...'}
+      {!isLoading && !error && data && (
+        <DataTable
+          data={data}
+          columns={BOT_TABLE_COLUMNS}
+          actions={actions}
+        />
+      )}
     </div>
   )
 }
