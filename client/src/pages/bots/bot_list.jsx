@@ -1,10 +1,11 @@
 import { useQuery } from 'react-query'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { getBots } from '../../api/bots'
-import { Stack } from '@mui/material'
+import { Stack, Typography } from '@mui/material'
 import Search from '../../components/common/search'
 import DataTable from '../../components/common/data_table'
 import { BOT_TABLE_COLUMNS } from '../../constants'
+import { BotIcon } from '../../components/common/icons'
 
 const BotList = () => {
   const navigate = useNavigate()
@@ -17,23 +18,27 @@ const BotList = () => {
   }
 
   // added a few extra actions here just so the UI looks more 'complete', they aren't hooked up though
-  const actions = { onView: handleClickBot, onDelete: () => alert('delete'), onEdit: () => alert('edit') }
+  const actions = {
+    onView: handleClickBot,
+    onDelete: () => alert('delete'),
+    onEdit: () => alert('edit'),
+  }
 
   return (
-    <div>
+    <Stack gap="20px">
       <Stack direction="row" justifyContent="space-between">
-        <h1>Bots</h1>
+        <Stack direction="row" alignItems="center" gap="10px">
+          <BotIcon />
+          <Typography variant="h3">BOTS</Typography>
+        </Stack>
+
         <Search searchKey="name" />
       </Stack>
       {isLoading && 'Loading...'}
       {!isLoading && !error && data && (
-        <DataTable
-          data={data}
-          columns={BOT_TABLE_COLUMNS}
-          actions={actions}
-        />
+        <DataTable data={data} columns={BOT_TABLE_COLUMNS} actions={actions} />
       )}
-    </div>
+    </Stack>
   )
 }
 

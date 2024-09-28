@@ -1,39 +1,50 @@
-import { TextField, Box, debounce } from '@mui/material'
+import { debounce } from '@mui/material'
 import { useSearchParams } from 'react-router-dom'
+import SearchIcon from '@mui/icons-material/Search'
+import { StyledTextField } from './styled_components'
+import { useEffect, useState, useCallback } from 'react'
 
 const Search = ({ searchKey }) => {
   const [searchParams, setSearchParams] = useSearchParams()
+  const initialSearchValue = searchParams.get(searchKey) || ''
+  const [searchValue, setSearchValue] = useState(initialSearchValue)
 
-  const handleInputChange = (event) => {
-    const newSearchTerm = event.target.value
+  useEffect(() => {
+    setSearchValue(initialSearchValue)
+  }, [initialSearchValue])
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const updateSearchParams = useCallback(debounce((newSearchTerm) => {
     const currentParams = Object.fromEntries([...searchParams])
+
     if (newSearchTerm) {
-      // if the user searches while on a further page, they may miss the results
+      // if user searches, reset to page 1 so they don't miss the results
       setSearchParams({ ...currentParams, page: 1, [searchKey]: newSearchTerm })
     } else {
-      // if the search string is empty, remove that key from the searchParams
+      // if search is cleared, remove the searchKey from URL params entirely
       delete currentParams[searchKey]
       setSearchParams(currentParams)
     }
-  }
+  }, 500), [searchParams, searchKey, setSearchParams])
 
-  const handleKeyPress = (event) => {
-    if (event.key === 'Enter') {
-      handleInputChange(event)
-    }
+  const handleInputChange = (event) => {
+    const newSearchTerm = event.target.value
+    setSearchValue(newSearchTerm)
+    updateSearchParams(newSearchTerm)
   }
-
-  const debounceSearch = debounce(handleInputChange, 500)
 
   return (
-    <Box display="flex" alignItems="center" gap={1}>
-      <TextField
-        label="Search"
-        variant="outlined"
-        onChange={debounceSearch}
-        onKeyDown={handleKeyPress}
-      />
-    </Box>
+    <StyledTextField
+      sx={{ margin: 'auto 0' }}
+      size="small"
+      placeholder="Search items..."
+      variant="outlined"
+      value={searchValue}
+      onChange={handleInputChange}
+      InputProps={{
+        startAdornment: <SearchIcon />,
+      }}
+    />
   )
 }
 
