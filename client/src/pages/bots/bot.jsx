@@ -3,6 +3,8 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { getBotById } from '../../api/bots'
 import DataTable from '../../components/common/data_table'
 import { WORKER_TABLE_COLUMNS } from '../../constants'
+import { Stack } from '@mui/material'
+import Search from '../../components/common/search'
 
 const Bot = () => {
   const { id } = useParams()
@@ -10,10 +12,6 @@ const Bot = () => {
   const { search } = useLocation()
 
   const { data: bot, isLoading, error } = useQuery(['bot', id, search], () => getBotById(id, search), { enabled: !!id })
-
-  if (isLoading) return 'Loading'
-
-  if (error) return error
 
   const handleClickWorker = (workerId) => {
     navigate(`/workers/${workerId}`)
@@ -23,12 +21,16 @@ const Bot = () => {
 
   return (
     <div>
-      <h1>Bot</h1>
-      {bot && (
-        <>
-          <div>{bot.name}</div>
-          <DataTable data={bot.workers} actions={actions} columns={WORKER_TABLE_COLUMNS} />
-        </>
+      <Stack direction="row" justifyContent="space-between">
+        {bot && <h1>Worker: {bot.name}</h1>}
+        <Search searchKey="name" />
+      </Stack>
+      {!isLoading && !error && bot && (
+        <DataTable
+          data={bot.workers}
+          columns={WORKER_TABLE_COLUMNS}
+          actions={actions}
+        />
       )}
     </div>
   )

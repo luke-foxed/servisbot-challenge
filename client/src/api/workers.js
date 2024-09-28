@@ -6,6 +6,6 @@ export async function getWorkers(queryString) {
 }
 
 export async function getWorkerById(id, logsQueryString) {
-  const res = await apiClient.get(`/workers/${id}?${logsQueryString}`)
+  const res = await apiClient.get(`/workers/${id}${logsQueryString}`)
   return res
 }

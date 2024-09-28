@@ -1,5 +1,4 @@
 const paginateResults = (results = [], limit = 50, page = 1) => {
-  console.log(results)
   const offset = (page - 1) * limit
   const paginatedResults = results.slice(offset, offset + limit)
   const totalResults = results.length
