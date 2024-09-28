@@ -38,7 +38,7 @@ const NavBar = () => {
                     <Link
                       to={`/${page.toLowerCase()}`}
                       key={page}
-                      style={{ textDecoration: 'none', color: 'darkgray' }}
+                      style={{ textDecoration: 'none', color: 'darkgray', cursor: 'pointer' }}
                     >
                       <Button
                         disableRipple
