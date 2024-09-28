@@ -5,7 +5,7 @@ export async function getBots(queryString) {
   return res
 }
 
-export async function getBotById(id, workerPage) {
-  const res = await apiClient.get(`/bots/${id}?workerPage=${workerPage}`)
+export async function getBotById(id, workersQueryString) {
+  const res = await apiClient.get(`/bots/${id}?${workersQueryString}`)
   return res
 }

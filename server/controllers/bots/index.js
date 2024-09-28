@@ -15,7 +15,9 @@ exports.getBotById = async (req, res) => {
   const bot = bots.find((b) => b.id === req.params.id)
   if (bot) {
     const workers = await getWorkersByBotName(bot.name)
-    const botWithWorkers = { ...bot, workers: paginateResults(workers, 50, req.query?.workerPage) }
+    const filteredWorkers = filterResults(workers, req.query)
+    const paginatedBots = paginateResults(filteredWorkers, 50, req.query?.page)
+    const botWithWorkers = { ...bot, workers: paginatedBots }
     res.status(200).json(botWithWorkers)
   } else {
     res.status(404).json({ message: 'Bot not found' })

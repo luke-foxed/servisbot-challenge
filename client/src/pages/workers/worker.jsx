@@ -1,15 +1,15 @@
 import { useQuery } from 'react-query'
-import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { getWorkerById } from '../../api/workers'
-import LogsTable from '../../components/logs_table'
+import DataTable from '../../components/common/data_table'
+import { LOG_TABLE_COLUMNS } from '../../constants'
 
 const Worker = () => {
   const { id } = useParams()
-  const [logsPageParams, setLogsPageParams] = useSearchParams()
   const navigate = useNavigate()
-  const logsPage = logsPageParams.get('logsPage') ?? 1
+  const { search } = useLocation()
 
-  const { data: worker, isLoading, error } = useQuery(['worker', id, logsPage], () => getWorkerById(id, logsPage), { enabled: !!id })
+  const { data: worker, isLoading, error } = useQuery(['worker', id, search], () => getWorkerById(id, search), { enabled: !!id })
 
   if (isLoading) return 'Loading'
 
@@ -19,9 +19,7 @@ const Worker = () => {
     navigate(`/logs/${logId}`)
   }
 
-  const handleChangeLogsPage = (newPage) => {
-    setLogsPageParams({ logsPage: newPage })
-  }
+  const actions = { onView: handleClickLog, onDelete: () => alert('delete'), onEdit: () => alert('edit') }
 
   return (
     <div>
@@ -29,7 +27,7 @@ const Worker = () => {
       {worker && (
         <>
           <div>{worker.name}</div>
-          <LogsTable logs={worker.logs} onClickRow={handleClickLog} onChangePage={handleChangeLogsPage} />
+          <DataTable data={worker.logs} actions={actions} columns={LOG_TABLE_COLUMNS} />
         </>
       )}
     </div>

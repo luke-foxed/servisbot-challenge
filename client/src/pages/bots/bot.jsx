@@ -1,15 +1,15 @@
 import { useQuery } from 'react-query'
-import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { getBotById } from '../../api/bots'
-import WorkersTable from '../../components/workers_table'
+import DataTable from '../../components/common/data_table'
+import { WORKER_TABLE_COLUMNS } from '../../constants'
 
 const Bot = () => {
   const { id } = useParams()
-  const [workersPageParams, setWorkersPageParams] = useSearchParams()
   const navigate = useNavigate()
-  const workersPage = workersPageParams.get('workersPage') ?? 1
+  const { search } = useLocation()
 
-  const { data: bot, isLoading, error } = useQuery(['bot', id, workersPage], () => getBotById(id, workersPage), { enabled: !!id })
+  const { data: bot, isLoading, error } = useQuery(['bot', id, search], () => getBotById(id, search), { enabled: !!id })
 
   if (isLoading) return 'Loading'
 
@@ -19,9 +19,7 @@ const Bot = () => {
     navigate(`/workers/${workerId}`)
   }
 
-  const handleChangeWorkersPage = (newPage) => {
-    setWorkersPageParams({ workersPage: newPage })
-  }
+  const actions = { onView: handleClickWorker, onDelete: () => alert('delete'), onEdit: () => alert('edit') }
 
   return (
     <div>
@@ -29,7 +27,7 @@ const Bot = () => {
       {bot && (
         <>
           <div>{bot.name}</div>
-          <WorkersTable workers={bot.workers} onClickRow={handleClickWorker} onChangePage={handleChangeWorkersPage} />
+          <DataTable data={bot.workers} actions={actions} columns={WORKER_TABLE_COLUMNS} />
         </>
       )}
     </div>

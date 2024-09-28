@@ -15,7 +15,9 @@ exports.getWorkerById = async (req, res) => {
   const worker = workers.find((w) => w.id === req.params.id)
   if (worker) {
     const logs = await getLogsByWorkerId(worker.id)
-    const workerWithLogs = { ...worker, logs: paginateResults(logs, 50, req.query?.logsPage)}
+    const filteredLogs = filterResults(logs, req.query)
+    const paginatedLogs = paginateResults(filteredLogs, 50, req.query?.page)
+    const workerWithLogs = { ...worker, logs: paginatedLogs }
     res.status(200).json(workerWithLogs)
   } else {
     res.status(404).json({ message: 'Worker not found' })
