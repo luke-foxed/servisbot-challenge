@@ -1,7 +1,7 @@
 import { CircularProgress, Stack, Typography } from '@mui/material'
 import { useQuery } from 'react-query'
-import { getStats } from '../../api/stats'
 import { useNavigate } from 'react-router-dom'
+import { getStats } from '../../api/stats'
 import { BotIcon, LogIcon, WorkerIcon } from '../../components/common/icons'
 import { StyledStack } from '../../components/common/styled_components'
 import logo from '/logo.avif'

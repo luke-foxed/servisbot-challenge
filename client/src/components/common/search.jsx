@@ -1,8 +1,8 @@
+import { useEffect, useState, useCallback } from 'react'
 import { debounce } from '@mui/material'
 import { useSearchParams } from 'react-router-dom'
 import SearchIcon from '@mui/icons-material/Search'
 import { StyledTextField } from './styled_components'
-import { useEffect, useState, useCallback } from 'react'
 
 const Search = ({ searchKey }) => {
   const [searchParams, setSearchParams] = useSearchParams()

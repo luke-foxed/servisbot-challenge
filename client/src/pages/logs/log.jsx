@@ -1,10 +1,10 @@
 import { useQuery } from 'react-query'
 import { useParams } from 'react-router-dom'
-import { getLogById } from '../../api/logs'
+import ReactJson from 'react-json-view'
 import { CircularProgress, Stack, Typography } from '@mui/material'
+import { getLogById } from '../../api/logs'
 import { LogIcon } from '../../components/common/icons'
 import { StyledStack } from '../../components/common/styled_components'
-import ReactJson from 'react-json-view'
 
 const Log = () => {
   const { id } = useParams()

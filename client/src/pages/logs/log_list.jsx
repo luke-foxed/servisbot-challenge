@@ -1,7 +1,7 @@
 import { useQuery } from 'react-query'
 import { useLocation, useNavigate } from 'react-router-dom'
-import { getLogs } from '../../api/logs'
 import { Stack, Typography } from '@mui/material'
+import { getLogs } from '../../api/logs'
 import Search from '../../components/common/search'
 import DataTable from '../../components/common/data_table'
 import { LogIcon } from '../../components/common/icons'

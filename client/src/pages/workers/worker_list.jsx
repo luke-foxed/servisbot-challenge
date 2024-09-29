@@ -1,8 +1,8 @@
 import { useQuery } from 'react-query'
-import { getWorkers } from '../../api/workers'
 import { useLocation, useNavigate } from 'react-router-dom'
-import Search from '../../components/common/search'
+import { getWorkers } from '../../api/workers'
 import { CircularProgress, Stack, Typography } from '@mui/material'
+import Search from '../../components/common/search'
 import DataTable from '../../components/common/data_table'
 import { WorkerIcon } from '../../components/common/icons'
 

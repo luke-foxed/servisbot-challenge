@@ -3,8 +3,8 @@ import Toolbar from '@mui/material/Toolbar'
 import Container from '@mui/material/Container'
 import Button from '@mui/material/Button'
 import { Link, useLocation } from 'react-router-dom'
-import logo from '/logo_full.png'
 import { Box, Stack } from '@mui/material'
+import logo from '/logo_full.png'
 
 const PAGES = ['Bots', 'Workers', 'Logs']
 
