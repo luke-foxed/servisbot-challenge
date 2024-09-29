@@ -1,4 +1,4 @@
-import { Stack, Typography } from '@mui/material'
+import { CircularProgress, Stack, Typography } from '@mui/material'
 import { useQuery } from 'react-query'
 import { getStats } from '../../api/stats'
 import { useNavigate } from 'react-router-dom'
@@ -42,7 +42,7 @@ const StatBox = ({ stat, value, onClick }) => {
 }
 
 const Home = () => {
-  const { data, isLoading, error } = useQuery(['stats'], getStats)
+  const { data, isLoading } = useQuery(['stats'], getStats)
   const navigate = useNavigate()
 
   const handleStatClick = (stat) => {
@@ -56,7 +56,10 @@ const Home = () => {
       <Typography variant="subtitle1">
         Welcome Back! Here are some stats on your current setup.
       </Typography>
-      {data && (
+
+      {isLoading && <CircularProgress color="primary" />}
+
+      {data && !isLoading && (
         <Stack display="grid" gap="20px" gridTemplateColumns={`repeat(${Object.keys(data)?.length ?? 0}, 1fr)`}>
           {Object.keys(data).map((stat) => (
             <StatBox key={stat} stat={stat} value={data[stat]} onClick={handleStatClick} />
