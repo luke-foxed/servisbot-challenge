@@ -1,16 +1,13 @@
 import { QueryClient, QueryClientProvider } from 'react-query'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
-import Home from './pages/home'
-import BotList from './pages/bots/bot_list'
-import Bot from './pages/bots/bot'
-import WorkerList from './pages/workers/workers_list'
-import Worker from './pages/workers/worker'
-import LogList from './pages/logs/log_list'
-import Log from './pages/logs/log'
-import NavBar from './components/navbar'
 import { ThemeProvider } from '@mui/material'
-import theme from './theme'
 import { SnackbarProvider, enqueueSnackbar } from 'notistack'
+import Home from './pages/home'
+import NavBar from './components/navbar'
+import { Bot, BotList } from './pages/bots'
+import { Worker, WorkerList } from './pages/workers'
+import { Log, LogList } from './pages/logs'
+import theme from './theme'
 
 const queryClient = new QueryClient({
   defaultOptions: {
