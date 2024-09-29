@@ -16,6 +16,8 @@ Simply run:
 make docker # builds and starts containers with docker-compose
 ```
 
+The App can then be accessed on ```http://localhost:5678```
+
 ## Architecture
 ### Client
 The client consists of some of the following tools/packages
