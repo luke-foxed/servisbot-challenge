@@ -1,6 +1,6 @@
-import apiClient from '../utils/apiClient'
+import { apiGet } from '../utils/apiClient'
 
-export async function getStats() {
-  const res = await apiClient.get('/stats')
+export const getStats = async() => {
+  const res = await apiGet('/stats')
   return res
 }

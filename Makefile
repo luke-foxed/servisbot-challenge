@@ -1,10 +1,10 @@
-.PHONY: client-local server-local run-docker
+.PHONY: client server docker
 
-client-local:
+client:
 	cd client && npm install --legacy-peer-deps && npm run dev
 
-server-local:
+server:
 	cd server && npm install && npm start
 
-run-docker:
+docker:
 	docker-compose up --build
