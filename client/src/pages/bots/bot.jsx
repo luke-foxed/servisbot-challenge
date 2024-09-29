@@ -26,11 +26,15 @@ const Bot = () => {
 
   const handleChangeTable = (table) => {
     const currentParams = Object.fromEntries([...searchParams])
+    // if switching to logs after searching for a worker name, no results will show
+    delete currentParams.name
+    delete currentParams.id
     setSearchParams({ ...currentParams, view: table, page: 1 })
   }
 
   const workerActions = { onView: handleClickWorker, onDelete: () => alert('delete'), onEdit: () => alert('edit') }
   const logActions = { onView: handleClickLog, onDelete: () => alert('delete'), onEdit: () => alert('edit') }
+  const isViewLogs = searchParams.get('view') === 'logs'
 
   return (
     <Stack gap="20px">
@@ -60,7 +64,7 @@ const Bot = () => {
 
       <Stack direction="row" justifyContent="space-between" alignItems="center">
         <ToggleButtonGroup
-          value={searchParams.get('view') ?? 'workers'}
+          value={isViewLogs ? 'logs' : 'workers'}
           exclusive
           onChange={(_, newVal) => handleChangeTable(newVal)}
         >
@@ -68,26 +72,24 @@ const Bot = () => {
           <ToggleButton value="logs">Associated Logs</ToggleButton>
         </ToggleButtonGroup>
 
-        <Search searchKey="name" />
+        <Search searchKey={isViewLogs ? 'id' : 'name' } />
       </Stack>
 
       {isLoading && <CircularProgress color="primary" />}
 
-      {!isLoading &&
-        bot &&
-        (searchParams.get('view') === 'logs' ? (
-          <DataTable
-            data={bot.logs}
-            columns={LOG_TABLE_COLUMNS}
-            actions={logActions}
-          />
-        ) : (
-          <DataTable
-            data={bot.workers}
-            columns={WORKER_TABLE_COLUMNS}
-            actions={workerActions}
-          />
-        ))}
+      {!isLoading && bot && (isViewLogs ? (
+        <DataTable
+          data={bot.logs}
+          columns={LOG_TABLE_COLUMNS}
+          actions={logActions}
+        />
+      ) : (
+        <DataTable
+          data={bot.workers}
+          columns={WORKER_TABLE_COLUMNS}
+          actions={workerActions}
+        />
+      ))}
     </Stack>
   )
 }
