@@ -1,14 +1,24 @@
 import { useQuery } from 'react-query'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
+import ReactJson from 'react-json-view'
+import { CircularProgress, IconButton, Stack, Typography } from '@mui/material'
+import LaunchIcon from '@mui/icons-material/Launch'
 import { getLogById } from '../../api/logs'
-import { CircularProgress, Stack, Typography } from '@mui/material'
 import { LogIcon } from '../../components/common/icons'
 import { StyledStack } from '../../components/common/styled_components'
-import ReactJson from 'react-json-view'
 
 const Log = () => {
   const { id } = useParams()
+  const navigate = useNavigate()
   const { data: log, isLoading } = useQuery(['log', id], () => getLogById(id), { enabled: !!id })
+
+  const handleClickBot = (botId) => {
+    navigate(`/bots/${botId}`)
+  }
+
+  const handleClickWorker = (workerId) => {
+    navigate(`/workers/${workerId}`)
+  }
 
   return (
     <Stack gap="20px">
@@ -35,11 +45,38 @@ const Log = () => {
               <div>{new Date(log.created).toString()}</div>
             </StyledStack>
             <StyledStack gap="20px">
-              <Typography variant="h5">Bot</Typography>
+              <Stack
+                direction="row"
+                alignItems="flex-start"
+                justifyContent="space-between"
+              >
+                <Typography variant="h5">Bot</Typography>
+                <IconButton
+                  color="primary"
+                  disabled={!log?.bot}
+                  onClick={() => handleClickBot(log?.bot)}
+                >
+                  <LaunchIcon />
+                </IconButton>
+              </Stack>
+
               <div>{log.bot}</div>
             </StyledStack>
             <StyledStack gap="20px">
-              <Typography variant="h5">Worker</Typography>
+              <Stack
+                direction="row"
+                alignItems="flex-start"
+                justifyContent="space-between"
+              >
+                <Typography variant="h5">Worker</Typography>
+                <IconButton
+                  color="primary"
+                  disabled={!log?.worker}
+                  onClick={() => handleClickWorker(log?.worker)}
+                >
+                  <LaunchIcon />
+                </IconButton>
+              </Stack>
               <div>{log.worker}</div>
             </StyledStack>
           </Stack>

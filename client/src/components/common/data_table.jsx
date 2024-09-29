@@ -1,9 +1,20 @@
-import { IconButton, Stack, TableFooter, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material'
+import { useMemo } from 'react'
+import {
+  IconButton,
+  Stack,
+  TableFooter,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+} from '@mui/material'
+import DeleteIcon from '@mui/icons-material/Delete'
+import EditIcon from '@mui/icons-material/Edit'
+import VisibilityIcon from '@mui/icons-material/Visibility'
+import { noop } from 'lodash'
 import Paginator from './paginator'
-import DeleteIcon from '@mui/icons-material/Delete';
-import EditIcon from '@mui/icons-material/Edit';
-import VisibilityIcon from '@mui/icons-material/Visibility';
-import { noop } from 'lodash';
 
 const BASE_ACTIONS = {
   view: { icon: () => <VisibilityIcon />, cb: () => noop(), key: 'view' },
@@ -16,11 +27,22 @@ const DATE_COLUMNS = ['created']
 const DataTable = ({ data, columns = [], actions = {} }) => {
   const { results, currentPage, totalResults } = data
 
-  const tableActions = {
-    view: actions.onView ? { ...BASE_ACTIONS.view, cb: actions.onView || BASE_ACTIONS.view.cb } : {},
-    edit: actions.onEdit ? { ...BASE_ACTIONS.edit, cb: actions.onEdit || BASE_ACTIONS.edit.cb } : {},
-    delete: actions.onDelete ? { ...BASE_ACTIONS.delete, cb: actions.onDelete || BASE_ACTIONS.delete.cb } : {},
-  }
+  const tableActions = useMemo(() => {
+    const tableActions = {}
+
+    if (actions?.onView) {
+      tableActions.view = { ...BASE_ACTIONS.view, cb: actions.onView }
+    }
+
+    if (actions?.onEdit) {
+      tableActions.edit = { ...BASE_ACTIONS.edit, cb: actions.onEdit }
+    }
+
+    if (actions?.onDelete) {
+      tableActions.delete = { ...BASE_ACTIONS.delete, cb: actions.onDelete }
+    }
+    return tableActions
+  }, [actions])
 
   return (
     <TableContainer sx={{ background: '#fff', borderRadius: '20px', boxShadow: '0px 0px 16px 0px rgba(0,0,0,0.15)', maxHeight: '60vh' }}>

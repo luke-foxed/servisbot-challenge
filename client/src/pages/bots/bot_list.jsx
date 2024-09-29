@@ -1,7 +1,7 @@
 import { useQuery } from 'react-query'
 import { useLocation, useNavigate } from 'react-router-dom'
-import { getBots } from '../../api/bots'
 import { CircularProgress, Stack, Typography } from '@mui/material'
+import { getBots } from '../../api/bots'
 import Search from '../../components/common/search'
 import DataTable from '../../components/common/data_table'
 import { BOT_TABLE_COLUMNS } from '../../constants'
@@ -18,11 +18,7 @@ const BotList = () => {
   }
 
   // added a few extra actions here just so the UI looks more 'complete', they aren't hooked up though
-  const actions = {
-    onView: handleClickBot,
-    onDelete: () => alert('delete'),
-    onEdit: () => alert('edit'),
-  }
+  const actions = { onView: handleClickBot, onDelete: () => alert('delete'), onEdit: () => alert('edit') }
 
   return (
     <Stack gap="20px">
