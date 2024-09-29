@@ -1,6 +1,6 @@
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  background-image: url('../public/bg_pattern.png');
+  background-image: url('/bg_pattern.png');
   background-repeat: repeat;
 }
 
