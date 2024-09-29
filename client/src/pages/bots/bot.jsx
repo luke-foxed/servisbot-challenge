@@ -1,17 +1,18 @@
 import { useQuery } from 'react-query'
-import { useLocation, useNavigate, useParams } from 'react-router-dom'
+import { useLocation, useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import { getBotById } from '../../api/bots'
 import DataTable from '../../components/common/data_table'
-import { Stack, Typography } from '@mui/material'
+import { Stack, ToggleButton, ToggleButtonGroup, Typography } from '@mui/material'
 import Search from '../../components/common/search'
 import { BotIcon } from '../../components/common/icons'
-import { WORKER_TABLE_COLUMNS } from '../../constants'
+import { LOG_TABLE_COLUMNS, WORKER_TABLE_COLUMNS } from '../../constants'
 import { StyledStack } from '../../components/common/styled_components'
 
 const Bot = () => {
   const { id } = useParams()
   const navigate = useNavigate()
   const { search } = useLocation()
+  const [searchParams, setSearchParams] = useSearchParams()
 
   const { data: bot, isLoading, error } = useQuery(['bot', id, search], () => getBotById(id, search), { enabled: !!id })
 
@@ -19,7 +20,17 @@ const Bot = () => {
     navigate(`/workers/${workerId}`)
   }
 
-  const actions = { onView: handleClickWorker, onDelete: () => alert('delete'), onEdit: () => alert('edit') }
+  const handleClickLog = (logId) => {
+    navigate(`/logs/${logId}`)
+  }
+
+  const handleChangeTable = (table) => {
+    const currentParams = Object.fromEntries([...searchParams])
+    setSearchParams({ ...currentParams, view: table, page: 1 })
+  }
+
+  const workerActions = { onView: handleClickWorker, onDelete: () => alert('delete'), onEdit: () => alert('edit') }
+  const logActions = { onView: handleClickLog, onDelete: () => alert('delete'), onEdit: () => alert('edit') }
 
   return (
     <Stack gap="20px">
@@ -52,17 +63,34 @@ const Bot = () => {
       )}
 
       <Stack direction="row" justifyContent="space-between" alignItems="center">
-        <Typography variant="h5">Associated Workers</Typography>
+        <ToggleButtonGroup
+          value={searchParams.get('view') ?? 'workers'}
+          exclusive
+          onChange={(_, newVal) => handleChangeTable(newVal)}
+        >
+          <ToggleButton value="workers">Associated Workers</ToggleButton>
+          <ToggleButton value="logs">Associated Logs</ToggleButton>
+        </ToggleButtonGroup>
+
         <Search searchKey="name" />
       </Stack>
 
-      {!isLoading && !error && bot && (
-        <DataTable
-          data={bot.workers}
-          columns={WORKER_TABLE_COLUMNS}
-          actions={actions}
-        />
-      )}
+      {!isLoading &&
+        !error &&
+        bot &&
+        (searchParams.get('view') === 'logs' ? (
+          <DataTable
+            data={bot.logs}
+            columns={LOG_TABLE_COLUMNS}
+            actions={workerActions}
+          />
+        ) : (
+          <DataTable
+            data={bot.workers}
+            columns={WORKER_TABLE_COLUMNS}
+            actions={logActions}
+          />
+        ))}
     </Stack>
   )
 }

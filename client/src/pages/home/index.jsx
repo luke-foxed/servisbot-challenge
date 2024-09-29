@@ -50,7 +50,7 @@ const Home = () => {
   }
 
   return (
-    <Stack height="50h" alignItems="center" justifyContent="center" gap="40px">
+    <Stack height="50h" alignItems="center" justifyContent="center" gap="20px">
       <Typography variant="h3">ServisBot Dashboard</Typography>
       <img src={logo} height={100} />
       <Typography variant="subtitle1">

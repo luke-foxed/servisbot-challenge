@@ -1,5 +1,6 @@
 const fs = require('fs/promises')
 const path = require('path')
+const { loadLogs } = require('./log')
 
 const workersPath = path.join(process.cwd(), 'mock_data', 'workers.json')
 let workersCache = null
@@ -16,4 +17,9 @@ const getWorkersByBotName = async (botName) => {
   return workers.filter((worker) => worker.bot === botName)
 }
 
-module.exports = { loadWorkers, getWorkersByBotName }
+const getLogsByBotId = async (bot) => {
+  const logs = await loadLogs()
+  return logs.filter((log) => log.bot === bot)
+}
+
+module.exports = { loadWorkers, getWorkersByBotName, getLogsByBotId }
