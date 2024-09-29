@@ -1,2 +1,2 @@
-export { Bot } from './bot'
-export { BotList } from './bot_list'
+export { default as Bot } from './bot'
+export { default as BotList } from './bot_list'

@@ -1,2 +1,2 @@
-export { Worker } from './worker'
-export { WorkerList } from './workers_list'
+export { default as Worker } from './worker'
+export { default as WorkerList } from './worker_list'
