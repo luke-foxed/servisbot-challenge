@@ -1,27 +1,27 @@
 import { useQuery } from 'react-query'
 import { useParams } from 'react-router-dom'
 import { getLogById } from '../../api/logs'
-import { Stack, Typography } from '@mui/material'
+import { CircularProgress, Stack, Typography } from '@mui/material'
 import { LogIcon } from '../../components/common/icons'
 import { StyledStack } from '../../components/common/styled_components'
 import ReactJson from 'react-json-view'
 
 const Log = () => {
   const { id } = useParams()
-  const { data: log, isLoading, error } = useQuery(['log', id], () => getLogById(id), { enabled: !!id })
+  const { data: log, isLoading } = useQuery(['log', id], () => getLogById(id), { enabled: !!id })
 
   return (
     <Stack gap="20px">
       <Stack direction="row" justifyContent="space-between">
-        {log && (
-          <Stack direction="row" alignItems="center" gap="10px">
-            <LogIcon />
-            <Typography variant="h3">
-              &apos;{log.id.toUpperCase()}&apos;
-            </Typography>
-          </Stack>
-        )}
+        <Stack direction="row" alignItems="center" gap="10px">
+          <LogIcon />
+          <Typography variant="h3">
+            &apos;{log?.id?.toUpperCase() ?? ''}&apos;
+          </Typography>
+        </Stack>
       </Stack>
+
+      {isLoading && <CircularProgress color="primary" />}
 
       {log && (
         <>
@@ -44,8 +44,8 @@ const Log = () => {
             </StyledStack>
           </Stack>
 
-          <Typography variant="h5">Raw Log</Typography>
-          <StyledStack>
+          <StyledStack gap="20px">
+            <Typography variant="h5">Raw Log</Typography>
             <ReactJson
               src={log}
               style={{ whiteSpace: 'nowrap', overflow: 'scroll' }}

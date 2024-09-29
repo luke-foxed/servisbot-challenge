@@ -1,28 +1,21 @@
-# Version of Docker-compose
-version: '3.9'
 services:
-  # Add the node-js service
+
   server:
-  # Location to the node.js dockerfile
     build: 
       context: ./server
-        # Name of the dockerfile
       dockerfile: Dockerfile
     container_name: server
     ports:
-       # Host port:Container port
       - '4000:4000'
-    volumes:
-      # Bind-mounts configuration
-      - ./server:/app
+
   client:
-  # Location to the react.js dockerfile
-    build: 
+    build:
       context: ./client
-        # Name of the dockerfile
       dockerfile: Dockerfile
     container_name: client
     ports:
-     # Host port:Container port
-      - '5678:5678'
-    stdin_open: true
+      - "5678:5678"
+    environment:
+      - VITE_API_URL=http://localhost:4000/api
+    depends_on:
+      - server

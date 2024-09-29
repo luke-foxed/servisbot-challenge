@@ -34,7 +34,7 @@ export default [
         { allowConstantExport: true },
       ],
 
-      // Airbnb-like rules manually added:
+      // Airbnb-like rules manually since the npm package doesn't support this new eslint object shape (v9)
       'array-bracket-spacing': ['error', 'never'],
       'block-spacing': ['error', 'always'],
       'comma-dangle': ['error', 'always-multiline'],
@@ -51,7 +51,7 @@ export default [
       'no-unused-vars': ['error', { args: 'none', ignoreRestSiblings: true }],
       'object-curly-spacing': ['error', 'always'],
       quotes: ['error', 'single', { avoidEscape: true }],
-      'space-before-function-paren': ['error', 'never'],
+      'space-before-function-paren': 'off',
       'space-in-parens': ['error', 'never'],
       'spaced-comment': ['error', 'always', { markers: ['!'] }],
       'arrow-spacing': ['error', { before: true, after: true }],

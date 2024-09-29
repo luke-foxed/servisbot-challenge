@@ -2,7 +2,7 @@ import { useQuery } from 'react-query'
 import { getWorkers } from '../../api/workers'
 import { useLocation, useNavigate } from 'react-router-dom'
 import Search from '../../components/common/search'
-import { Stack, Typography } from '@mui/material'
+import { CircularProgress, Stack, Typography } from '@mui/material'
 import DataTable from '../../components/common/data_table'
 import { WorkerIcon } from '../../components/common/icons'
 
@@ -11,7 +11,7 @@ const WORKER_COLUMNS = ['name', 'description', 'bot', 'created']
 const WorkerList = () => {
   const navigate = useNavigate()
   const { search } = useLocation()
-  const { data, isLoading, error } = useQuery(['workers', search], () => getWorkers(search))
+  const { data, isLoading } = useQuery(['workers', search], () => getWorkers(search))
 
   const handleClickWorker = (workerId) => {
     navigate(`/workers/${workerId}`)
@@ -33,8 +33,10 @@ const WorkerList = () => {
 
         <Search searchKey="name" />
       </Stack>
-      {isLoading && 'Loading...'}
-      {!isLoading && !error && data && (
+
+      {isLoading && <CircularProgress color="primary" />}
+
+      {!isLoading && data && (
         <DataTable data={data} columns={WORKER_COLUMNS} actions={actions} />
       )}
     </Stack>

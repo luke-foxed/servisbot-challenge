@@ -1,11 +1,11 @@
-import apiClient from '../utils/apiClient'
+import { apiGet } from '../utils/apiClient'
 
-export async function getWorkers(queryString) {
-  const res = await apiClient.get(`/workers${queryString}`)
+export const getWorkers = async (queryString) => {
+  const res = await apiGet(`/workers${queryString}`)
   return res
 }
 
-export async function getWorkerById(id, logsQueryString) {
-  const res = await apiClient.get(`/workers/${id}${logsQueryString}`)
+export const getWorkerById = async (id, logsQueryString) => {
+  const res = await apiGet(`/workers/${id}${logsQueryString}`)
   return res
 }

@@ -1,10 +1,13 @@
-.PHONY: client-local server-local run-docker
+.PHONY: client server docker
 
-client-local:
-	cd client && npm install --legacy-peer-deps && npm run dev
+client:
+	cd client && \
+	export VITE_API_URL=http://localhost:4000/api && \
+	npm install --legacy-peer-deps && \
+	npm run dev
 
-server-local:
+server:
 	cd server && npm install && npm start
 
-run-docker:
+docker:
 	docker-compose up --build
